@@ -17,14 +17,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Observable;
 
+// The PokemonFetcher class extends Observable class
+// This provides the fetcher with the following important methods:
+// setChanged() - Set the change flag so that notify Observers can trigger
+// notifyObservers() - Tell every observer of this instance that a change has happened
 public class PokemonFetcher extends Observable {
         private String TAG = "PokemonFetcher";
         private ArrayList<Pokemon> pokemons;
         private RequestQueue queue;
 
         public PokemonFetcher(Context ctx) {
-            this.pokemons = new ArrayList<>();
-            this.queue = Volley.newRequestQueue(ctx);
+            pokemons = new ArrayList<>();
+            queue = Volley.newRequestQueue(ctx);
         }
 
         public ArrayList<Pokemon> getPokemons() {
@@ -41,15 +45,19 @@ public class PokemonFetcher extends Observable {
                 return this.queue;
         }
 
+        /**
+         * Fetch the pokemon list from the Pokeapi endpoint
+         *
+         * @param offset the offset to start searching for
+         * @param limit the amount of pokemon to search for
+         */
         public void fetch(int offset, int limit) {
-                Log.wtf(TAG, "Fetching...");
-                RequestQueue queue = this.getQueue();
+                RequestQueue queue = getQueue();
                 String url = "https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=" + limit;
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                                Log.wtf(TAG, "Fetch Success");
                                 try {
                                         ArrayList<Pokemon> results = new ArrayList<Pokemon>();
                                         JSONArray data = response.getJSONArray("results");
@@ -58,7 +66,6 @@ public class PokemonFetcher extends Observable {
                                                 Pokemon p = new Pokemon(obj.getString("name"));
                                                 results.add(p);
                                         }
-                                        Log.wtf(TAG, "Notifying...");
                                         setPokemons(results);
                                 } catch (JSONException e) {
                                         e.printStackTrace();

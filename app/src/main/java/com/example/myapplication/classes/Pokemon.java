@@ -8,6 +8,6 @@ public class Pokemon {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 }

@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+// The PokemonAdapter implements the Observer interface
+// This allows the adapter to be added to an observable instance via addObserver
+// And to trigger the update() method when it has been notified of a change within the observable instance
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> implements Observer {
     private String TAG = "PokemonAdapter";
     private ArrayList<Pokemon> pokemons;
 
     public PokemonAdapter() {
-        this.pokemons = new ArrayList<>();
+        pokemons = new ArrayList<>();
     }
 
     @NonNull
@@ -32,8 +35,10 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(@NonNull PokemonAdapter.PokemonViewHolder holder, int position) {
-        final Pokemon pokemon = this.pokemons.get(position);
-        holder.getPokemonName().setText(pokemon.getName());
+        final Pokemon pokemon = pokemons.get(position);
+        String name = pokemon.getName();
+        String capitalizedName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        holder.getPokemonName().setText(capitalizedName);
     }
 
     @Override
@@ -43,9 +48,8 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void update(Observable o, Object arg) {
-        Log.wtf(TAG, "Updating..");
         PokemonFetcher fetcher = (PokemonFetcher) o;
-        this.pokemons = fetcher.getPokemons();
+        pokemons = fetcher.getPokemons();
         notifyDataSetChanged();
     }
 
@@ -54,11 +58,11 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
         public PokemonViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.pokemonName = itemView.findViewById(R.id.pokemon_name);
+            pokemonName = itemView.findViewById(R.id.pokemon_name);
         }
 
         public TextView getPokemonName() {
-            return this.pokemonName;
+            return pokemonName;
         }
     }
 }
