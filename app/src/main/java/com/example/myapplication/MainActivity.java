@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView pokemonPosition;
     private RecyclerView pokemonFeed;
     private Button pokemonFetchNext;
+    private Button pokemonFetchPrev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         pokemonPosition = findViewById(R.id.pokemon_position_text);
         pokemonFeed = findViewById(R.id.pokemon_feed);
         pokemonFetchNext = findViewById(R.id.pokemon_fetch_next);
+        pokemonFetchPrev = findViewById(R.id.pokemon_fetch_prev);
 
         // Set the adapter & layout manager to the Recycler View
         pokemonFeed.setAdapter(pokemonAdapter);
@@ -51,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Set the new offset to search
                 offset += limit;
+                pokemonPosition.setText("FROM " + (offset + 1) + " TO " + (limit + offset));
+                pokemonFeed.smoothScrollToPosition(0);
+                // Run the fetch for the next set of pokemons based on the new offset & limit
+                pokemonFetcher.fetch(offset, limit);
+            }
+        });
+        pokemonFetchPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Set the new offset to search
+                offset -= limit;
                 pokemonPosition.setText("FROM " + (offset + 1) + " TO " + (limit + offset));
                 pokemonFeed.smoothScrollToPosition(0);
                 // Run the fetch for the next set of pokemons based on the new offset & limit

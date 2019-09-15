@@ -15,16 +15,32 @@
         />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokemon_feed"
-        android:layout_above="@id/pokemon_fetch_next"
+        android:layout_above="@id/button_container"
         android:layout_below="@id/pokemon_position_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"/>
-    <Button
-        android:id="@+id/pokemon_fetch_next"
-        android:layout_alignParentBottom="true"
+    <LinearLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
-        android:text="Siguiente"
-        android:padding="8dp"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/pokemon_fetch_prev"
+            android:layout_alignParentBottom="true"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:text="Prev"
+            android:padding="8dp"/>
+        <Button
+            android:id="@+id/pokemon_fetch_next"
+            android:layout_alignParentBottom="true"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:padding="8dp"/>
+    </LinearLayout>
 </RelativeLayout>
